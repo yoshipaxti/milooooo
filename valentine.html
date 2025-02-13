@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Valentine's Card</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background: linear-gradient(to right, #ff758c, #ff7eb3);
+            font-family: 'Courier New', Courier, monospace;
+        }
+        .card-container {
+            perspective: 1500px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .envelope {
+            width: 480px;
+            height: 300px;
+            background: #ffcccc;
+            position: relative;
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-shadow: 5px 5px 15px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+            transition: transform 1s ease-in-out;
+        }
+        .envelope::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 50%;
+            background: #ffb6c1;
+            clip-path: polygon(0 0, 100% 0, 50% 100%);
+            transition: transform 1s ease-in-out;
+        }
+        .card {
+            width: 450px;
+            height: 300px;
+            background: white;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%) rotateX(90deg);
+            transform-origin: top;
+            border-radius: 10px;
+            text-align: center;
+            padding: 20px;
+            transition: transform 1s ease-in-out;
+            box-shadow: inset 0px 0px 10px rgba(0, 0, 0, 0.2);
+        }
+        .envelope.open .card {
+            transform: translateX(-50%) rotateX(0deg);
+        }
+        .envelope.open::before {
+            transform: rotateX(180deg);
+        }
+        h2 {
+            font-size: 24px;
+            color: #e63946;
+            animation: fadeInOut 2s infinite alternate;
+        }
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .buttons {
+            margin-top: 20px;
+        }
+        .btn {
+            padding: 10px;
+            margin: 5px;
+            cursor: pointer;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            transition: transform 0.2s ease-in-out;
+        }
+        .btn:hover {
+            transform: scale(1.1);
+        }
+        .yes {
+            background: green;
+            color: white;
+        }
+        .no {
+            background: red;
+            color: white;
+        }
+        .celebrate {
+            display: none;
+            font-size: 24px;
+            font-weight: bold;
+            color: red;
+            animation: bounce 1s infinite;
+        }
+        @keyframes bounce {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        .gif-container {
+            margin-top: 20px;
+        }
+        .begging-gif {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="card-container">
+        <div class="envelope" onclick="openEnvelope()">
+            <div class="card">
+                <h2 id="valentine-text">Will you be my Valentine? 💖</h2>
+                <div class="begging-gif">
+                    <img src="https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.gif" width="200" alt="Begging GIF">
+                </div>
+                <div class="buttons">
+                    <button class="btn yes" onclick="celebrateYes()">Yes</button>
+                    <button class="btn no" onclick="growYes()">No</button>
+                </div>
+                <div class="celebrate">Yehey! I love you, Milo❤️🎉 
+                    <br>Kitakits later! Galingan mo sa Exam! 😘
+                    <br>From: Dudu
+                    <div class="gif-container">
+                        <img src="https://media.giphy.com/media/JltOMwYmi0VrO/giphy.gif" width="200" alt="Dudu Dancing">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function openEnvelope() {
+            let envelope = document.querySelector('.envelope');
+            envelope.classList.add('open');
+        }
+        function celebrateYes() {
+            document.querySelector('.buttons').style.display = 'none';
+            document.querySelector('.celebrate').style.display = 'block';
+            document.getElementById('valentine-text').style.display = 'none';
+            document.querySelector('.begging-gif').style.display = 'none';
+            sendEmailNotification();
+        }
+        function growYes() {
+            let yesButton = document.querySelector('.yes');
+            let currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
+            yesButton.style.fontSize = (currentSize + 5) + 'px';
+        }
+        function sendEmailNotification() {
+            fetch('https://your-server.com/send-email', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ message: 'Someone said YES to your Valentine request!' })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error sending email:', error));
+        }
+    </script>
+</body>
+</html>
