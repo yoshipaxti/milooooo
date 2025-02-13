@@ -151,24 +151,11 @@
             document.querySelector('.celebrate').style.display = 'block';
             document.getElementById('valentine-text').style.display = 'none';
             document.querySelector('.begging-gif').style.display = 'none';
-            sendEmailNotification();
         }
         function growYes() {
             let yesButton = document.querySelector('.yes');
             let currentSize = parseFloat(window.getComputedStyle(yesButton).fontSize);
             yesButton.style.fontSize = (currentSize + 5) + 'px';
-        }
-        function sendEmailNotification() {
-            fetch('https://your-server.com/send-email', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ message: 'Someone said YES to your Valentine request!' })
-            })
-            .then(response => response.json())
-            .then(data => console.log(data))
-            .catch(error => console.error('Error sending email:', error));
         }
     </script>
 </body>
