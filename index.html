@@ -1,0 +1,62 @@
+import { useState } from "react";
+
+export default function ValentineCard() {
+  const [isOpen, setIsOpen] = useState(false);
+  const [showCelebrate, setShowCelebrate] = useState(false);
+  const [yesSize, setYesSize] = useState(18);
+
+  const openEnvelope = () => setIsOpen(true);
+
+  const celebrateYes = () => {
+    setShowCelebrate(true);
+  };
+
+  const growYes = () => {
+    setYesSize(yesSize + 5);
+  };
+
+  return (
+    <div className="flex justify-center items-center h-screen bg-gradient-to-r from-pink-500 to-pink-300 p-4">
+      <div className="w-full max-w-md perspective">
+        <div
+          className={`relative w-full max-w-md h-64 bg-pink-200 rounded-lg flex justify-center items-center shadow-lg cursor-pointer transition-transform duration-700 ${isOpen ? 'rotate-x-180' : ''}`}
+          onClick={openEnvelope}
+        >
+          <div className={`absolute w-full h-1/2 bg-pink-300 top-0 left-0 clip-triangle transition-transform duration-700 ${isOpen ? 'rotate-x-180' : ''}`} />
+          <div className={`absolute w-11/12 max-w-sm h-64 bg-white rounded-lg text-center p-5 shadow-inner transition-transform duration-700 ${isOpen ? 'rotate-x-0' : 'rotate-x-90'}`}>
+            {!showCelebrate ? (
+              <>
+                <h2 className="text-xl text-red-600 animate-pulse">Will you be my Valentine? 💖</h2>
+                <div className="mt-4">
+                  <img src="https://media.giphy.com/media/d2lcHJTG5Tscg/giphy.gif" alt="Begging GIF" className="w-32 mx-auto" />
+                </div>
+                <div className="mt-4 flex flex-col gap-2 items-center">
+                  <button
+                    className="px-6 py-3 bg-green-500 text-white rounded-lg transition-transform duration-200 hover:scale-110"
+                    style={{ fontSize: yesSize }}
+                    onClick={celebrateYes}
+                  >
+                    Yes
+                  </button>
+                  <button
+                    className="px-6 py-3 bg-red-500 text-white rounded-lg transition-transform duration-200 hover:scale-110"
+                    onClick={growYes}
+                  >
+                    No
+                  </button>
+                </div>
+              </>
+            ) : (
+              <div className="text-center text-red-600 font-bold text-2xl animate-bounce">
+                Yehey! ❤️🎉
+                <div className="mt-4">
+                  <img src="https://media.giphy.com/media/JltOMwYmi0VrO/giphy.gif" alt="Celebration GIF" className="w-32 mx-auto" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+}
